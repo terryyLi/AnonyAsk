@@ -21,6 +21,9 @@ jobs:
         with:
           node-version: 14
 
+      - name: Change directory to backend
+        run: cd backend
+
       - name: Install dependencies
         run: npm ci
 
