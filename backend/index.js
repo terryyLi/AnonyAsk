@@ -5,6 +5,7 @@ const UserModel = require('./models/UserModel');
 const PostModel = require('./models/PostModel');
 const ConversationModel = require('./models/ConversationModel');
 const ResponseModel = require('./models/ResponseModel');
+const routes = require('./routes/index');
 
 const app = express();
 
@@ -15,6 +16,10 @@ app.use((req, res, next) => {
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   next();
 });
+app.use(express.json());
+
+
+app.use('/api', routes);
 
 app.get('/test', async (req, res) => {
     try {
