@@ -18,11 +18,11 @@ jobs:
         with:
           node-version: '14'
 
-      - name: Install dependencies
+      - name: Clean Cache
+        run: npm cache clean --force
+
+      - name: Run tests on backend files
         run: |
           cd backend/
           npm ci
-
-      - name: Run tests
-        working-directory: backend/
-        run: npm test
+          npm test
