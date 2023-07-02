@@ -1,15 +1,14 @@
 const mongoose = require('mongoose');
 
-const responseSchema = new mongoose.Schema({
-  response: {
+const conversationSchema = new mongoose.Schema({
+  question: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Response',
   },
-});
-
-const conversationSchema = new mongoose.Schema({
-  question: responseSchema,
-  answer: responseSchema,
+  answer: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Response',
+  },
 });
 
 const ConversationModel = mongoose.model('Conversation', conversationSchema);

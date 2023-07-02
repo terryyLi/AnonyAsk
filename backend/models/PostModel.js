@@ -1,12 +1,5 @@
 const mongoose = require('mongoose');
 
-const conversationSchema = new mongoose.Schema({
-  conversation: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Conversation',
-  },
-});
-
 const postSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -16,7 +9,10 @@ const postSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  conversations: [conversationSchema],
+  conversations: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Conversation',
+  }],
 });
 
 const PostModel = mongoose.model('Post', postSchema);

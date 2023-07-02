@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const UserModel = require('../models/UserModel');
 const PostModel = require('../models/PostModel');
+const ConversationModel = require('../models/ConversationModel');
+const ResponseModel = require('../models/ResponseModel');
 
 // Route to get posts by user name
 router.get('/:username', async (req, res) => {
@@ -16,7 +18,7 @@ router.get('/:username', async (req, res) => {
     }
 
     // Get the posts of the user
-    const posts = await PostModel.find({ _id: { $in: user.posts } });
+    const posts = await PostModel.find({ _id: { $in: user.posts } }).populate('conversations');
 
     res.status(200).json(posts);
   } catch (error) {
@@ -59,4 +61,6 @@ router.post('/:username', async (req, res) => {
     }
 });
 
+
+  
 module.exports = router;
