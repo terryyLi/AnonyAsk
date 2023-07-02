@@ -26,4 +26,3 @@ jobs:
       - name: Run tests
         working-directory: backend/
         run: npm test
-        timeout-minutes: 2  # Set a lower timeout value, e.g., 2 minutes
