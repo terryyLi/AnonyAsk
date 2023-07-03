@@ -11,6 +11,12 @@ const app = express();
 
 const port = process.env.PORT || 5050;
 
+if(port == 3001) {
+    console.log("true")
+} else {
+    console.log("false")
+}
+
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
