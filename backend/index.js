@@ -105,8 +105,8 @@ app.get('/test', async (req, res) => {
   });
   
 
-const username = process.env.USERNAME;
-const password = process.env.PASSWORD;
+const username = process.env.MONGODB_USERNAME;
+const password = process.env.MONGODB_PASSWORD;
 
 const mongodbEndpoint = `mongodb+srv://${encodeURIComponent(username)}:${encodeURIComponent(password)}@serverlessinstance0.seutday.mongodb.net/`;
 
