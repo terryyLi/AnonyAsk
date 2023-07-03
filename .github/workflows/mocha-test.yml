@@ -27,5 +27,6 @@ jobs:
       # Runs compiler and linter for TS files
       - name: Run test on backend files
         run: |
+          cd ./backend
           timeout 2m npm install 
           timeout 2m npm run test
