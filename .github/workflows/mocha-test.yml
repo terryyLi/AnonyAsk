@@ -5,28 +5,27 @@ on:
     branches:
       - main
 
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  test:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
+    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
         with:
-          node-version: '18'
+          fetch-depth: 0
 
-      - name: Install mocha
-        run: npm install -g mocha
+      # Checks-out Node
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
 
-      - name: Install dependencies
+      # Runs compiler and linter for TS files
+      - name: Run test on backend files
         run: |
-          cd ./backend
-          npm install 
-
-      - name: Run Test
-        run: |
-          cd ./backend
-          npx mocha test/**
+          timeout 2m npm install 
+          timeout 2m npm run test
