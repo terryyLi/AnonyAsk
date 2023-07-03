@@ -22,7 +22,9 @@ jobs:
         run: npm install -g mocha
 
       - name: Install dependencies
-        run: npm install 
+        run: |
+          cd ./backend
+          npm install 
 
       - name: Run Test
         run: |
