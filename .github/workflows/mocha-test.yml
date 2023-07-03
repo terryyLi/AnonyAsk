@@ -1,27 +1,30 @@
-name: "Mocha Test"
-on:
-    push:
-        branches:
-            - main
+name: Mocha Test
 
+on:
+  push:
+    branches:
+      - main
 
 jobs:
-    test:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v2
+  test:
+    runs-on: ubuntu-latest
 
-            - name: 'Set up Node.js'
-              uses: actions/setup-node@v1
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-            - name: Install mocha
-              run: npm install -g mocha
-              
-            - name: Install dependencies
-              run: npm install 
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
 
-            - name: "Run Test"
-              run: |
-                cd ./backend
-                npm test
+      - name: Install mocha
+        run: npm install -g mocha
+
+      - name: Install dependencies
+        run: npm install 
+
+      - name: Run Test
+        run: |
+          cd ./backend
+          npx mocha test/**
