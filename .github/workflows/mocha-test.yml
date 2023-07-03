@@ -17,4 +17,6 @@ jobs:
             - name: Install dependencies
               run: npm install 
             - name: "Run Test"
-              run: npm test
+              run: |
+                cd backend/
+                npm test
