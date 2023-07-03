@@ -9,16 +9,10 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   build:
-    env:
-      PORT: ${{ secrets.PORT }}
-      MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
-      MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
+    
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
-    run:
-      echo "The port is $PORT"
-
+    
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -33,7 +27,12 @@ jobs:
 
       # Runs compiler and linter for TS files
       - name: Run test on backend files
+        env:
+          PORT: ${{ secrets.PORT }}
+          MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
+          MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
         run: |
+          echo "The port is $PORT"
           cd ./backend
           timeout 2m npm install 
           timeout 2m npm run test
