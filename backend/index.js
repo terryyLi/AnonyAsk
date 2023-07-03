@@ -108,12 +108,6 @@ app.get('/test', async (req, res) => {
 const username = process.env.MONGODB_USERNAME;
 const password = process.env.MONGODB_PASSWORD;
 
-if(username == "terry") {
-    console.log("true")
-} else {
-    console.log("false")
-}
-
 const mongodbEndpoint = `mongodb+srv://${encodeURIComponent(username)}:${encodeURIComponent(password)}@serverlessinstance0.seutday.mongodb.net/`;
 
 mongoose
