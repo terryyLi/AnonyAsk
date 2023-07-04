@@ -9,7 +9,7 @@ function HomePage() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch(`http://localhost:3001/api/posts/${username}`);
+        const response = await fetch(`http://localhost:3001/api/posts/user/${username}`);
         if (response.ok) {
           const data = await response.json();
           setPosts(data);
@@ -52,6 +52,18 @@ function HomePage() {
                   <div className="mt-auto text-muted ml-0 text-left">
                     <small>{formatDateTime(post.time)}</small>
                   </div>
+                  <Link
+                    to={`/createConversation/${post._id}`} // Pass post ID as URL parameter
+                    className="btn btn-primary btn-sm float-right"
+                  >
+                    Create Question
+                  </Link>
+                  <Link
+                    to={`/post/${post._id}`} // Pass post ID as URL parameter
+                    className="btn btn-primary btn-sm float-right"
+                  >
+                    View Conversations
+                  </Link>
                 </Card.Body>
               </Card>
             </Col>
@@ -60,7 +72,9 @@ function HomePage() {
       </Container>
 
       <Link to="/createPost">
-        <Button variant="primary" className="mt-4">Add Post</Button>
+        <Button variant="primary" className="mt-4">
+          Add Post
+        </Button>
       </Link>
     </Container>
   );

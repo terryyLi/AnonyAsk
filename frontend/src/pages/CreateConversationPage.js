@@ -1,27 +1,28 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Container, Form, Button } from 'react-bootstrap';
 
-function CreatePostPage() {
+function CreateConversationPage() {
   const [title, setTitle] = useState('');
   const username = 'sample_user';
   const navigate = useNavigate();
+  const { postId } = useParams(); // Retrieve the postId from the URL parameter
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await fetch(`http://localhost:3001/api/posts/user/${username}`, {
+      const response = await fetch(`http://localhost:3001/api/conversations/${postId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ title }),
+        body: JSON.stringify({ content: title }),
       });
 
       if (response.ok) {
         const data = await response.json();
-        alert('Post created successfully');
+        alert('Response added successfully');
         navigate('/'); // Redirect to homepage
       } else {
         // Handle error response
@@ -34,7 +35,7 @@ function CreatePostPage() {
 
   return (
     <Container className="text-center">
-      <h1 className="mt-5"> Create post </h1>
+      <h1 className="mt-5">Create Post</h1>
       <Container className="mt-5">
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="title">
@@ -55,4 +56,4 @@ function CreatePostPage() {
   );
 }
 
-export default CreatePostPage;
+export default CreateConversationPage;
