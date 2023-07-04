@@ -28,7 +28,7 @@ describe('User Experience', () => {
     it('should create a post, add a conversation, and check the conversation', async () => {
       // Create a new post
       const createPostResponse = await request(app)
-        .post('/api/posts/testuser')
+        .post('/api/posts/user/testuser')
         .send({ title: 'Sample Post' })
         .expect(201);
 

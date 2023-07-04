@@ -43,10 +43,10 @@ describe('Post Routes', () => {
     });
   });
 
-  describe('POST /api/posts/:username', () => {
+  describe('POST /api/posts/user/:username', () => {
     it('should create a new post', (done) => {
       request(app)
-        .post('/api/posts/sample_user')
+        .post('/api/posts/user/sample_user')
         .send({ title: 'New Post' })
         .expect(201)
         .end((err, res) => {

@@ -21,7 +21,6 @@ function CreatePostPage() {
 
       if (response.ok) {
         const data = await response.json();
-        alert('Post created successfully');
         navigate('/'); // Redirect to homepage
       } else {
         // Handle error response

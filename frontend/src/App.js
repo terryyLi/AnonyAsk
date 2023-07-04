@@ -4,6 +4,7 @@ import HomePage from './pages/HomePage';
 import CreatePostPage from './pages/CreatePostPage';
 import CreateConversationPage from './pages/CreateConversationPage';
 import PostPage from './pages/PostPage';
+import CreateAnswerPage from './pages/CreateAnswerPage';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
         <Route path="/createPost" element={<CreatePostPage />} />
         <Route path="/createConversation/:postId" element={<CreateConversationPage />} />
         <Route path="/post/:postId" element={<PostPage />} />
+        <Route path="/createAnswer/:conversationId/:postId" element={<CreateAnswerPage />} />
       </Routes>
     </Router>
   );

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { Card, Container, Row, Col } from 'react-bootstrap';
+import { useParams, Link } from 'react-router-dom';
+import { Card, Container, Row, Col, Button } from 'react-bootstrap';
 
 function PostPage() {
   const [post, setPost] = useState(null);
@@ -47,6 +47,9 @@ function PostPage() {
 
   return (
     <Container className="text-center">
+        <Link to="/" className="btn btn-primary">
+            Back to Home
+        </Link>
       {post && (
         <div>
           <h1 className="mt-5">{post.title}</h1>
@@ -62,6 +65,11 @@ function PostPage() {
                       <div className="mt-auto text-muted">
                         <small>{formatDateTime(conversation.question.time)}</small>
                       </div>
+                      {!conversation.answer && (
+                        <Link to={`/createAnswer/${conversation._id}/${postId}`} className="btn btn-primary">
+                          Add Answer
+                        </Link>
+                      )}
                     </Card.Body>
                   </Card>
                 </Col>
