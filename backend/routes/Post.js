@@ -2,8 +2,6 @@ const express = require('express');
 const router = express.Router();
 const UserModel = require('../models/UserModel');
 const PostModel = require('../models/PostModel');
-const ConversationModel = require('../models/ConversationModel');
-const ResponseModel = require('../models/ResponseModel');
 
 // Route to get posts by user name
 router.get('/user/:username', async (req, res) => {
