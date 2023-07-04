@@ -1,29 +1,43 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, Button, Container, Row, Col } from 'react-bootstrap';
+import jwt_decode from 'jwt-decode';
 
 function HomePage() {
   const [posts, setPosts] = useState([]);
-  const username = 'sample_user';
+  const [username, setUsername] = useState('');
+
+  useEffect(() => {
+    // Retrieve token from localStorage
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      // Decode the token to retrieve the username
+      const decodedToken = jwt_decode(token);
+      setUsername(decodedToken.username);
+    }
+  }, []);
 
   useEffect(() => {
     const fetchPosts = async () => {
-      try {
-        const response = await fetch(`http://localhost:3001/api/posts/user/${username}`);
-        if (response.ok) {
-          const data = await response.json();
-          setPosts(data);
-        } else {
-          // Handle error response
+      if (username) {
+        try {
+          const response = await fetch(`http://localhost:3001/api/posts/user/${username}`);
+          if (response.ok) {
+            const data = await response.json();
+            setPosts(data);
+          } else {
+            // Handle error response
+          }
+        } catch (error) {
+          console.error(error);
+          // Handle error
         }
-      } catch (error) {
-        console.error(error);
-        // Handle error
       }
     };
 
     fetchPosts();
-  }, []);
+  }, [username]);
 
   const formatDateTime = (dateTimeString) => {
     const options = {

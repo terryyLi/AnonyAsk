@@ -1,11 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import jwt_decode from 'jwt-decode';
 import { Container, Form, Button } from 'react-bootstrap';
 
 function CreatePostPage() {
   const [title, setTitle] = useState('');
-  const username = 'sample_user';
+  const [username, setUsername] = useState('');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Retrieve token from localStorage
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      // Decode the token to retrieve the username
+      const decodedToken = jwt_decode(token);
+      setUsername(decodedToken.username);
+    }
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,7 +33,7 @@ function CreatePostPage() {
 
       if (response.ok) {
         const data = await response.json();
-        navigate('/'); // Redirect to homepage
+        navigate('/home'); // Redirect to homepage
       } else {
         // Handle error response
       }

@@ -1,15 +1,26 @@
 const express = require('express');
 const router = express.Router();
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 const UserModel = require('../models/UserModel');
 
+// Generate a random secret key
+const secretKey = "hi"
+
 // Registration Route
-router.post('/registerrr', async (req, res) => {
+router.post('/register', async (req, res) => {
   const { username, email, password } = req.body;
 
   try {
-    const user = new UserModel({ username, email, password, posts: [] });
+    const user = new UserModel({ username, email, password });
     await user.save();
-    res.status(201).json({ message: 'Registration successful' });
+    // Generate JWT
+    const token = jwt.sign(
+        { userId: user._id, email: user.email, username: user.username },
+        secretKey
+      );
+  
+      res.status(200).json({ token });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -27,13 +38,19 @@ router.post('/login', async (req, res) => {
       return;
     }
 
-    const isPasswordValid = await user.comparePassword(password);
+    const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       res.status(401).json({ error: 'Invalid credentials' });
       return;
     }
+    
+    // Generate JWT
+    const token = jwt.sign(
+      { userId: user._id, email: user.email, username: user.username },
+      secretKey
+    );
 
-    res.status(200).json({ message: 'Login successful' });
+    res.status(200).json({ token });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

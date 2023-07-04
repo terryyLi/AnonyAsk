@@ -47,7 +47,7 @@ function PostPage() {
 
   return (
     <Container className="text-center">
-        <Link to="/" className="btn btn-primary">
+        <Link to="/home" className="btn btn-primary">
             Back to Home
         </Link>
       {post && (

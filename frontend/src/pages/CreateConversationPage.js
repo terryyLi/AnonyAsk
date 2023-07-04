@@ -4,7 +4,6 @@ import { Container, Form, Button } from 'react-bootstrap';
 
 function CreateConversationPage() {
   const [title, setTitle] = useState('');
-  const username = 'sample_user';
   const navigate = useNavigate();
   const { postId } = useParams(); // Retrieve the postId from the URL parameter
 
