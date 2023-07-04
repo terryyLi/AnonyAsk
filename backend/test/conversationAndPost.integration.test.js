@@ -36,7 +36,7 @@ describe('User Experience', () => {
 
       // Retrieve the post and check for no conversations
       const getPostResponse1 = await request(app)
-        .get(`/api/posts/testuser`)
+        .get(`/api/posts/user/testuser`)
         .expect(200);
 
       assert.strictEqual(getPostResponse1.body.length, 1);
@@ -56,7 +56,7 @@ describe('User Experience', () => {
 
       // Retrieve the post and check for the conversation
       const getPostResponse2 = await request(app)
-        .get(`/api/posts/testuser`)
+        .get(`/api/posts/user/testuser`)
         .expect(200);
 
       assert.strictEqual(getPostResponse2.body.length, 1);

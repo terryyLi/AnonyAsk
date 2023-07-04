@@ -6,7 +6,7 @@ const ConversationModel = require('../models/ConversationModel');
 const ResponseModel = require('../models/ResponseModel');
 
 // Route to get posts by user name
-router.get('/:username', async (req, res) => {
+router.get('/user/:username', async (req, res) => {
   const { username } = req.params;
 
   try {
@@ -27,8 +27,27 @@ router.get('/:username', async (req, res) => {
   }
 });
 
+// Route to get posts by id
+router.get('/:postId', async (req, res) => {
+  const { postId } = req.params;
+
+  try {
+    // Find the user by id
+    const post = await PostModel.findById(postId);
+
+    if (!post) {
+      return res.status(404).json({ error: 'Post not found' });
+    }
+
+    res.status(200).json(post);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to fetch post' });
+  }
+});
+
 // Route to create a new post
-router.post('/:username', async (req, res) => {
+router.post('/user/:username', async (req, res) => {
     const { username } = req.params;
     const { title } = req.body;
 

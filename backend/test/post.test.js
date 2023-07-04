@@ -22,10 +22,10 @@ describe('Post Routes', () => {
     await user.save();
   });
 
-  describe('GET /api/posts/:username', () => {
+  describe('GET /api/posts/user/:username', () => {
     it('should retrieve posts by username', (done) => {
       request(app)
-        .get('/api/posts/sample_user')
+        .get('/api/posts/user/sample_user')
         .expect(200)
         .end((err, res) => {
           if (err) return done(err);
@@ -37,7 +37,7 @@ describe('Post Routes', () => {
 
     it('should return 404 if user does not exist', (done) => {
       request(app)
-        .get('/api/posts/nonexistent_user')
+        .get('/api/posts/user/nonexistent_user')
         .expect(404)
         .end(done);
     });
@@ -58,7 +58,7 @@ describe('Post Routes', () => {
 
     it('should return 404 if user does not exist', (done) => {
       request(app)
-        .post('/api/posts/nonexistent_user')
+        .post('/api/posts/user/nonexistent_user')
         .send({ title: 'New Post' })
         .expect(404)
         .end(done);
