@@ -65,7 +65,7 @@ function PostPage() {
                       <div className="mt-auto text-muted">
                         <small>{formatDateTime(conversation.question.time)}</small>
                       </div>
-                      {!conversation.answer && (
+                      {!conversation.answer && localStorage.getItem('token') && (
                         <Link to={`/createAnswer/${conversation._id}/${postId}`} className="btn btn-primary">
                           Add Answer
                         </Link>
