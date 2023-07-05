@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Card, Button, Container, Row, Col } from 'react-bootstrap';
+import { Card, Container, Row, Col } from 'react-bootstrap';
 import { FaClipboard } from 'react-icons/fa';
+import { MdAdd } from 'react-icons/md';
 import jwt_decode from 'jwt-decode';
 import './HomePage.css';
 
@@ -68,38 +69,42 @@ function HomePage() {
     <Container className="text-center">
       <h1 className="mt-5">Welcome, {username}</h1>
 
-      <Container className="mt-5">
-        {posts.map((post) => (
-          <Row key={post._id} className="mb-3">
-            <Col>
-              <Link to={`/post/${post._id}`} className="link-style">
-                <Card className="py-4 d-flex flex-column">
-                  <Card.Body className="d-flex flex-column">
-                    <Card.Title className="text-center">{post.title}</Card.Title>
-                    <div className="mt-auto text-muted ml-0 text-left">
-                      <small>{formatDateTime(post.time)}</small>
-                    </div>
-                    
-                    <div className="copy-icon" onClick={(event) => {
-                        event.preventDefault(); // Prevent default behavior
-                        event.stopPropagation(); // Stop event propagation
-                        const uniqueLink = `${window.location.origin}/createConversation/${post._id}`;
-                        copyToClipboard(uniqueLink);
-                      }}>
-                      <FaClipboard size={18} />
-                    </div>
-                  </Card.Body>
-                </Card>
-              </Link>
-            </Col>
-          </Row>
-        ))}
-      </Container>
+      {posts.length === 0 ? (
+        <p>There are no posts yet.</p>
+      ) : (
+        <Container className="mt-5">
+          {posts.map((post) => (
+            <Row key={post._id} className="mb-3">
+              <Col>
+                <Link to={`/post/${post._id}`} className="link-style">
+                  <Card className="py-4 d-flex flex-column custom-card">
+                    <Card.Body className="d-flex flex-column">
+                      <Card.Title className="text-center">{post.title}</Card.Title>
+                      <div className="mt-auto text-muted ml-0 text-left">
+                        <small className="post-time">{formatDateTime(post.time)}</small>
+                      </div>
+                      <div
+                        className="copy-icon"
+                        onClick={(event) => {
+                          event.preventDefault(); // Prevent default behavior
+                          event.stopPropagation(); // Stop event propagation
+                          const uniqueLink = `${window.location.origin}/createConversation/${post._id}`;
+                          copyToClipboard(uniqueLink);
+                        }}
+                      >
+                        <FaClipboard size={18} />
+                      </div>
+                    </Card.Body>
+                  </Card>
+                </Link>
+              </Col>
+            </Row>
+          ))}
+        </Container>
+      )}
 
-      <Link to="/createPost">
-        <Button variant="primary" className="mt-4">
-          Add Post
-        </Button>
+      <Link to="/createPost" className="add-icon">
+        <MdAdd size={64} />
       </Link>
     </Container>
   );
