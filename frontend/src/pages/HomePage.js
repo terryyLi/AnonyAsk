@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, Button, Container, Row, Col } from 'react-bootstrap';
 import jwt_decode from 'jwt-decode';
+import './HomePage.css';
 
 const formatDateTime = (dateTimeString) => {
   const options = {
@@ -70,30 +71,28 @@ function HomePage() {
         {posts.map((post) => (
           <Row key={post._id} className="mb-3">
             <Col>
-              <Card className="py-4 d-flex flex-column">
-                <Card.Body className="d-flex flex-column">
-                  <Card.Title className="text-center">{post.title}</Card.Title>
-                  <div className="mt-auto text-muted ml-0 text-left">
-                    <small>{formatDateTime(post.time)}</small>
-                  </div>
-                  <Button
-                    variant="primary"
-                    className="btn-sm float-right"
-                    onClick={() => {
-                      const uniqueLink = `${window.location.origin}/createConversation/${post._id}`;
-                      copyToClipboard(uniqueLink);
-                    }}
-                  >
-                    Create Question
-                  </Button>
-                  <Link
-                    to={`/post/${post._id}`} // Pass post ID as URL parameter
-                    className="btn btn-primary btn-sm float-right"
-                  >
-                    View Conversations
-                  </Link>
-                </Card.Body>
-              </Card>
+              <Link to={`/post/${post._id}`} className="link-style">
+                <Card className="py-4 d-flex flex-column">
+                  <Card.Body className="d-flex flex-column">
+                    <Card.Title className="text-center">{post.title}</Card.Title>
+                    <div className="mt-auto text-muted ml-0 text-left">
+                      <small>{formatDateTime(post.time)}</small>
+                    </div>
+                    <Button
+                      variant="primary"
+                      className="btn-sm float-right"
+                      onClick={(event) => {
+                        event.preventDefault(); // Prevent default button behavior
+                        event.stopPropagation(); // Stop event propagation
+                        const uniqueLink = `${window.location.origin}/createConversation/${post._id}`;
+                        copyToClipboard(uniqueLink);
+                      }}
+                    >
+                      Create Question
+                    </Button>
+                  </Card.Body>
+                </Card>
+              </Link>
             </Col>
           </Row>
         ))}
