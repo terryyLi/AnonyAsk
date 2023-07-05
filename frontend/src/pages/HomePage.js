@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, Button, Container, Row, Col } from 'react-bootstrap';
+import { FaClipboard } from 'react-icons/fa';
 import jwt_decode from 'jwt-decode';
 import './HomePage.css';
 
@@ -78,18 +79,15 @@ function HomePage() {
                     <div className="mt-auto text-muted ml-0 text-left">
                       <small>{formatDateTime(post.time)}</small>
                     </div>
-                    <Button
-                      variant="primary"
-                      className="btn-sm float-right"
-                      onClick={(event) => {
-                        event.preventDefault(); // Prevent default button behavior
+                    
+                    <div className="copy-icon" onClick={(event) => {
+                        event.preventDefault(); // Prevent default behavior
                         event.stopPropagation(); // Stop event propagation
                         const uniqueLink = `${window.location.origin}/createConversation/${post._id}`;
                         copyToClipboard(uniqueLink);
-                      }}
-                    >
-                      Create Question
-                    </Button>
+                      }}>
+                      <FaClipboard size={18} />
+                    </div>
                   </Card.Body>
                 </Card>
               </Link>

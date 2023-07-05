@@ -47,9 +47,10 @@ function PostPage() {
 
   return (
     <Container className="text-center">
-        <Link to="/home" className="btn btn-primary">
-            Back to Home
-        </Link>
+        { localStorage.getItem('token') && <Link to="/home" className="btn btn-primary">
+              Back to Home
+          </Link>
+        }
       {post && (
         <div>
           <h1 className="mt-5">{post.title}</h1>
