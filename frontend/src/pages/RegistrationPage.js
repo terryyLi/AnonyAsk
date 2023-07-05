@@ -1,15 +1,26 @@
 import React, { useState } from 'react';
-import { Container, Form, Button } from 'react-bootstrap';
+import { Container, Form, Button, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
 const RegistrationPage = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleRegister = async () => {
     try {
+      if (!validateEmail(email)) {
+        setError('Invalid email format');
+        return;
+      }
+
+      if (password.length < 8) {
+        setError('Password should be at least 8 characters');
+        return;
+      }
+
       const response = await fetch('http://localhost:3001/api/users/register', {
         method: 'POST',
         headers: {
@@ -30,8 +41,18 @@ const RegistrationPage = () => {
         navigate('/home'); // Redirect to homepage
       } else {
         const data = await response.json();
-        // Registration failed, handle error (e.g., display error message)
-        console.error(data.error);
+        const { errorCode } = data;
+        let errorMessage = 'An error occurred during registration';
+  
+        // Check the error code and update the error message accordingly
+        if (errorCode === 'USERNAME_TAKEN') {
+          errorMessage = 'Username is already taken, please choose another username';
+        } else if (errorCode === 'EMAIL_TAKEN') {
+          errorMessage = 'Email is already taken, please choose another email';
+        }
+  
+        // Set the error message state
+        setError(errorMessage);
       }
     } catch (error) {
       // Error occurred during registration request
@@ -39,9 +60,16 @@ const RegistrationPage = () => {
     }
   };
 
+  const validateEmail = (email) => {
+    // Basic email format validation using regular expression
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   return (
     <Container className="text-center mt-5">
       <h2 className="mb-4">Registration Page</h2>
+      {error && <Alert variant="danger">{error}</Alert>}
       <Form>
         <Form.Group controlId="username">
           <Form.Label>Username:</Form.Label>
@@ -57,6 +85,7 @@ const RegistrationPage = () => {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            isInvalid={!!error && !validateEmail(email)} // Add isInvalid prop when error exists or email format is invalid
           />
         </Form.Group>
         <Form.Group controlId="password">
@@ -65,6 +94,7 @@ const RegistrationPage = () => {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            isInvalid={!!error && password.length < 8} // Add isInvalid prop when error exists or password is too short
           />
         </Form.Group>
         <Button variant="primary" type="button" onClick={handleRegister}>
