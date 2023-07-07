@@ -21,7 +21,7 @@ const RegistrationPage = () => {
         return;
       }
 
-      const response = await fetch('http://localhost:3001/api/users/register', {
+      const response = await fetch('https://anonyask-odnuj43iea-uc.a.run.app/api/users/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

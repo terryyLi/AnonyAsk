@@ -10,7 +10,7 @@ const LoginPage = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/users/login', {
+      const response = await fetch('https://anonyask-odnuj43iea-uc.a.run.app/api/users/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

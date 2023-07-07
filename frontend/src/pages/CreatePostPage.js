@@ -23,7 +23,7 @@ function CreatePostPage() {
     e.preventDefault();
 
     try {
-      const response = await fetch(`http://localhost:3001/api/posts/user/${username}`, {
+      const response = await fetch(`https://anonyask-odnuj43iea-uc.a.run.app/api/posts/user/${username}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

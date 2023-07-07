@@ -21,8 +21,8 @@ function PostPage() {
     const fetchPostAndConversations = async () => {
       try {
         const [postResponse, conversationsResponse] = await Promise.all([
-          fetch(`http://localhost:3001/api/posts/${postId}`),
-          fetch(`http://localhost:3001/api/conversations/${postId}`)
+          fetch(`https://anonyask-odnuj43iea-uc.a.run.app/api/posts/${postId}`),
+          fetch(`https://anonyask-odnuj43iea-uc.a.run.app/api/conversations/${postId}`)
         ]);
   
         if (postResponse.ok && conversationsResponse.ok) {

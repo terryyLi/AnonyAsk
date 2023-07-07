@@ -11,7 +11,7 @@ function CreateAnswerPage() {
     e.preventDefault();
 
     try {
-      const response = await fetch(`http://localhost:3001/api/conversations/${conversationId}/answer`, {
+      const response = await fetch(`https://anonyask-odnuj43iea-uc.a.run.app/api/conversations/${conversationId}/answer`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
