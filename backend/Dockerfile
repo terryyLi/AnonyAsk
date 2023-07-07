@@ -1,16 +1,12 @@
-#Use a Node 18 base image
-FROM node:18-alpine 
-# Set the working directory to /app inside the container
-WORKDIR /app
-# Copy app files
-COPY . .
-# ==== BUILD =====
-# Install dependencies (npm ci makes sure the exact versions in the lockfile gets installed)
-RUN npm install 
-# ==== RUN =======
-# Set the env to "production"
-ENV NODE_ENV production
-# Expose the port on which the app will be running (3000 is the default that `serve` uses)
-EXPOSE 3001
-# Start the app
-CMD [ "npm", "start" ]
+# Use the official lightweight Node.js 12 image.
+# https://hub.docker.com/_/node
+FROM node:17-slim
+ 
+WORKDIR /usr/app
+COPY ./ /usr/app
+ 
+# Install dependencies and build the project.
+RUN npm install
+ 
+# Run the web service on container startup.
+CMD ["node", "index.js"]
