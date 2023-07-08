@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Card, Container, Row, Col } from 'react-bootstrap';
-import { FaClipboard } from 'react-icons/fa';
+import { Card, Container, Row, Col, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { MdAdd } from 'react-icons/md';
+import { RiShareForwardLine } from 'react-icons/ri';
 import jwt_decode from 'jwt-decode';
 import './HomePage.css';
 
@@ -19,10 +19,20 @@ const formatDateTime = (dateTimeString) => {
   return new Date(dateTimeString).toLocaleString(undefined, options);
 };
 
+const shareLink = async (text) => {
+  try {
+    await navigator.share({ url: text });
+    console.log('Link shared!');
+  } catch (error) {
+    console.error('Failed to share link: ', error);
+    // Fallback to copying to clipboard
+    copyToClipboard(text);
+  }
+};
+
 const copyToClipboard = async (text) => {
   try {
     await navigator.clipboard.writeText(text);
-    alert('Link copied to clipboard!');
   } catch (error) {
     console.error('Failed to copy text: ', error);
     // Handle error
@@ -32,6 +42,7 @@ const copyToClipboard = async (text) => {
 function HomePage() {
   const [posts, setPosts] = useState([]);
   const [username, setUsername] = useState('');
+  const [tooltipShown, setTooltipShown] = useState(false);
 
   useEffect(() => {
     // Retrieve token from localStorage
@@ -65,6 +76,12 @@ function HomePage() {
     fetchPosts();
   }, [username]);
 
+  const handleIconMouseEnter = () => {
+    if (tooltipShown) {
+      setTooltipShown(false);
+    }
+  };
+
   return (
     <Container className="text-center">
       <h1 className="mt-5">Welcome, {username}</h1>
@@ -83,16 +100,32 @@ function HomePage() {
                       <div className="mt-auto text-muted ml-0 text-left">
                         <small className="post-time">{formatDateTime(post.time)}</small>
                       </div>
-                      <div
-                        className="copy-icon"
-                        onClick={(event) => {
-                          event.preventDefault(); // Prevent default behavior
-                          event.stopPropagation(); // Stop event propagation
-                          const uniqueLink = `${window.location.origin}/createConversation/${post._id}`;
-                          copyToClipboard(uniqueLink);
-                        }}
-                      >
-                        <FaClipboard size={18} />
+                      <div className="copy-icon">
+                        <OverlayTrigger
+                          trigger={['hover', 'focus']}
+                          placement="left"
+                          overlay={<Tooltip id="tooltip">{tooltipShown ? 'Copied!' : 'Copy to share!'}</Tooltip>}
+                        >
+                          <div
+                            onClick={
+                              (event) => {
+                                event.preventDefault();
+                                event.stopPropagation();
+                                const uniqueLink = `${window.location.origin}/createConversation/${post._id}`;
+                                if (navigator.share) {
+                                  shareLink(uniqueLink);
+                                } else {
+                                  copyToClipboard(uniqueLink);
+                                  setTooltipShown(true);
+                                }
+                              }
+                            }
+                            onMouseEnter={handleIconMouseEnter}
+                            className="icon-container"
+                          >
+                            <RiShareForwardLine size={26} />
+                          </div>
+                        </OverlayTrigger>
                       </div>
                     </Card.Body>
                   </Card>
