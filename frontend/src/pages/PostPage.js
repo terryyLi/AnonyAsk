@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Card, Container, Row, Col, Button } from 'react-bootstrap';
+import { FaArrowLeft } from 'react-icons/fa';
+import './PostPage.css';
 
 const copyToClipboard = async (text) => {
   try {
@@ -57,14 +59,8 @@ function PostPage() {
 
   return (
     <Container className="text-center">
-      {localStorage.getItem('token') && (
-        <Link to="/home" className="btn btn-primary">
-          Back to Home
-        </Link>
-      )}
       {post && (
         <div>
-          <h1 className="mt-5">{post.title}</h1>
 
           <Container className="mt-5">
             {conversations.length > 0 ? (
@@ -95,22 +91,22 @@ function PostPage() {
               ))
             ) : (
               <div className="no-questions">
-                <p>Oops! No questions yet.</p>
-                <Button
-                  variant="primary"
-                  onClick={(event) => {
-                    event.preventDefault(); // Prevent default behavior
-                    event.stopPropagation(); // Stop event propagation
-                    const uniqueLink = `${window.location.origin}/createConversation/${post._id}`;
-                    copyToClipboard(uniqueLink);
-                  }}
-                >
-                  Click here to share with your friends
-                </Button>
+                <h1>You have no questions yet.</h1>
+                <img
+                  className="img-fluid larger-image"
+                  src={require('../assets/empty.svg').default}
+                  alt={`empty`}
+                />
               </div>
             )}
           </Container>
         </div>
+      )}
+
+      {localStorage.getItem('token') && (
+        <Link to="/home" className="back-icon">
+            <FaArrowLeft size={64} />
+        </Link>
       )}
     </Container>
   );

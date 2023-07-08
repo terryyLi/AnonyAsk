@@ -87,16 +87,23 @@ function HomePage() {
       <h1 className="mt-5">Welcome, {username}</h1>
 
       {posts.length === 0 ? (
-        <p>There are no posts yet.</p>
+        <div className="no-questions">
+        <h2>You have no posts yet.</h2>
+          <img
+            className="img-fluid larger-image"
+            src={require('../assets/empty.svg').default}
+            alt={`empty`}
+          />
+        </div>
       ) : (
         <Container className="mt-5">
           {posts.map((post) => (
             <Row key={post._id} className="mb-3">
               <Col>
                 <Link to={`/post/${post._id}`} className="link-style">
-                  <Card className="py-4 d-flex flex-column custom-card">
-                    <Card.Body className="d-flex flex-column">
-                      <Card.Title className="text-center">{post.title}</Card.Title>
+                  <Card className="py-4 d-flex flex-column custom-card" style={{ minHeight: '7vw' }}>
+                    <Card.Body className="d-flex flex-column px-5">
+                      <Card.Title className="text-center mw-10">{post.title}</Card.Title>
                       <div className="mt-auto text-muted ml-0 text-left">
                         <small className="post-time">{formatDateTime(post.time)}</small>
                       </div>

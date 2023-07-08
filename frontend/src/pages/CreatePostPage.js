@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 import { Container, Form, Button } from 'react-bootstrap';
+import { FaArrowLeft } from 'react-icons/fa';
 
 function CreatePostPage() {
   const [title, setTitle] = useState('');
@@ -49,19 +50,24 @@ function CreatePostPage() {
       <Container className="mt-5">
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="title">
-            <Form.Label>Title</Form.Label>
             <Form.Control
-              type="text"
-              placeholder="Enter title"
+              as="textarea"
+              placeholder="Enter post"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
+              style={{ minHeight: '20vw' }}
             />
           </Form.Group>
-          <Button variant="primary" type="submit" className="mt-4">
-            Submit
-          </Button>
+          <div style={{ textAlign: 'right' }}>
+            <Button variant="dark" type="submit" size="lg" className="mt-3">
+              Submit
+            </Button>
+          </div>
         </Form>
       </Container>
+      <Link to="/home" className="back-icon">
+          <FaArrowLeft size={64} />
+      </Link>
     </Container>
   );
 }

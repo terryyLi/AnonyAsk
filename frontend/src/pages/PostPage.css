@@ -1,15 +1,4 @@
-.link-style {
-    text-decoration: none;
-  }
-
-.copy-icon {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
-}
-
-.add-icon {
+.back-icon {
     position: fixed;
     bottom: 20px;
     right: 20px;
@@ -25,22 +14,12 @@
     transition: background-color 0.3s ease;
 }
 
-.add-icon:hover {
+.back-icon:hover {
     background-color: #0056b3;
 }
-  
-.post-time {
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-}
 
-.post-title-wrap {
-    white-space: normal;
-    word-wrap: break-word;
-  }
-  
-  .larger-image {
+.larger-image {
     width: 40vw; /* Adjust the width to your desired size */
     height: 40vw; /* Adjust the height to your desired size */
   }
+  

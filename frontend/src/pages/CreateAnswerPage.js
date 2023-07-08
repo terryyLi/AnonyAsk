@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 import { Container, Form, Button } from 'react-bootstrap';
+import { FaArrowLeft } from 'react-icons/fa';
 
 function CreateAnswerPage() {
   const [content, setContent] = useState('');
@@ -39,17 +40,22 @@ function CreateAnswerPage() {
           <Form.Group controlId="content">
             <Form.Control
               as="textarea"
-              rows={3}
               placeholder="Enter your answer"
               value={content}
               onChange={(e) => setContent(e.target.value)}
+              style={{ minHeight: '20vw' }}
             />
           </Form.Group>
-          <Button variant="primary" type="submit" className="mt-4">
-            Submit
-          </Button>
+          <div style={{ textAlign: 'right' }}>
+            <Button variant="dark" type="submit" size="lg" className="mt-3">
+              Submit
+            </Button>
+          </div>
         </Form>
       </Container>
+      <Link to="/home" className="back-icon">
+          <FaArrowLeft size={64} />
+      </Link>
     </Container>
   );
 }

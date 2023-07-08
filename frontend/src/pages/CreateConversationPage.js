@@ -38,15 +38,18 @@ function CreateConversationPage() {
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="title">
             <Form.Control
-              type="text"
+              as="textarea"
               placeholder="Enter question"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
+              style={{ minHeight: '20vw' }}
             />
           </Form.Group>
-          <Button variant="primary" type="submit" className="mt-4">
-            Submit
-          </Button>
+          <div style={{ textAlign: 'right' }}>
+            <Button variant="dark" type="submit" size="lg" className="mt-3">
+              Submit
+            </Button>
+          </div>
         </Form>
       </Container>
     </Container>
