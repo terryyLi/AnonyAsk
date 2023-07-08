@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Container, Form, Button } from 'react-bootstrap';
+import './style.css';
 
 function CreateConversationPage() {
   const [title, setTitle] = useState('');

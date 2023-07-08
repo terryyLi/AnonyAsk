@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Form, Button, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import './style.css';
 
 const RegistrationPage = () => {
   const [username, setUsername] = useState('');

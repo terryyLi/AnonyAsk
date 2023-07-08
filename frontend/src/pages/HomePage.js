@@ -4,7 +4,7 @@ import { Card, Container, Row, Col, OverlayTrigger, Tooltip } from 'react-bootst
 import { MdAdd } from 'react-icons/md';
 import { RiShareForwardLine } from 'react-icons/ri';
 import jwt_decode from 'jwt-decode';
-import './HomePage.css';
+import './style.css';
 
 const formatDateTime = (dateTimeString) => {
   const options = {
@@ -40,7 +40,7 @@ const copyToClipboard = async (text) => {
 };
 
 function HomePage() {
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState(null);
   const [username, setUsername] = useState('');
   const [tooltipShown, setTooltipShown] = useState(false);
 
@@ -86,61 +86,63 @@ function HomePage() {
     <Container className="text-center">
       <h1 className="mt-5">Welcome, {username}</h1>
 
-      {posts.length === 0 ? (
-        <div className="no-questions">
-        <h2>You have no posts yet.</h2>
-          <img
-            className="img-fluid larger-image"
-            src={require('../assets/empty.svg').default}
-            alt={`empty`}
-          />
+      {posts && (
+        <div>
+          <Container className="mt-5">
+            {posts.length !== 0 ? (
+                posts.map((post) => (
+                  <Row key={post._id} className="mb-3">
+                    <Col>
+                      <Link to={`/post/${post._id}`} className="link-style">
+                        <Card className="py-4 d-flex flex-column" style={{ minHeight: '7vw' }}>
+                          <Card.Body className="d-flex flex-column px-4">
+                            <Card.Title className="text-center mw-10">{post.title}</Card.Title>
+                            <div className="mt-auto text-muted ml-0 text-left">
+                              <small className="post-time">{formatDateTime(post.time)}</small>
+                            </div>
+                            <div className="copy-icon">
+                              <OverlayTrigger
+                                trigger={['hover', 'focus']}
+                                placement="left"
+                                overlay={<Tooltip id="tooltip">{tooltipShown ? 'Copied to clipboard!' : 'Share with friends'}</Tooltip>}
+                              >
+                                <div
+                                  onClick={(event) => {
+                                    event.preventDefault();
+                                    event.stopPropagation();
+                                    const uniqueLink = `${window.location.origin}/createConversation/${post._id}`;
+                                    if (navigator.share) {
+                                      shareLink(uniqueLink);
+                                    } else {
+                                      copyToClipboard(uniqueLink);
+                                      setTooltipShown(true);
+                                    }
+                                  }}
+                                  onMouseEnter={handleIconMouseEnter}
+                                  className="icon-container"
+                                >
+                                  <RiShareForwardLine size={26} />
+                                </div>
+                              </OverlayTrigger>
+                            </div>
+                          </Card.Body>
+                        </Card>
+                      </Link>
+                    </Col>
+                  </Row>
+                ))
+            ) : (
+              <div className="no-questions">
+                <h2>You have no posts yet.</h2>
+                <img
+                  className="img-fluid larger-image"
+                  src={require('../assets/empty.svg').default}
+                  alt={`empty`}
+                />
+              </div>
+            )}
+          </Container>
         </div>
-      ) : (
-        <Container className="mt-5">
-          {posts.map((post) => (
-            <Row key={post._id} className="mb-3">
-              <Col>
-                <Link to={`/post/${post._id}`} className="link-style">
-                  <Card className="py-4 d-flex flex-column custom-card" style={{ minHeight: '7vw' }}>
-                    <Card.Body className="d-flex flex-column px-5">
-                      <Card.Title className="text-center mw-10">{post.title}</Card.Title>
-                      <div className="mt-auto text-muted ml-0 text-left">
-                        <small className="post-time">{formatDateTime(post.time)}</small>
-                      </div>
-                      <div className="copy-icon">
-                        <OverlayTrigger
-                          trigger={['hover', 'focus']}
-                          placement="left"
-                          overlay={<Tooltip id="tooltip">{tooltipShown ? 'Copied to clipboard!' : 'Share with friends'}</Tooltip>}
-                        >
-                          <div
-                            onClick={
-                              (event) => {
-                                event.preventDefault();
-                                event.stopPropagation();
-                                const uniqueLink = `${window.location.origin}/createConversation/${post._id}`;
-                                if (navigator.share) {
-                                  shareLink(uniqueLink);
-                                } else {
-                                  copyToClipboard(uniqueLink);
-                                  setTooltipShown(true);
-                                }
-                              }
-                            }
-                            onMouseEnter={handleIconMouseEnter}
-                            className="icon-container"
-                          >
-                            <RiShareForwardLine size={26} />
-                          </div>
-                        </OverlayTrigger>
-                      </div>
-                    </Card.Body>
-                  </Card>
-                </Link>
-              </Col>
-            </Row>
-          ))}
-        </Container>
       )}
 
       <Link to="/createPost" className="add-icon">

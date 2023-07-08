@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Form, Button, Alert } from 'react-bootstrap';
+import './style.css';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');

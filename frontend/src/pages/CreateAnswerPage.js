@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { Container, Form, Button } from 'react-bootstrap';
-import { FaArrowLeft } from 'react-icons/fa';
+import { MdKeyboardBackspace } from 'react-icons/md';
+import './style.css';
 
 function CreateAnswerPage() {
   const [content, setContent] = useState('');
@@ -54,7 +55,7 @@ function CreateAnswerPage() {
         </Form>
       </Container>
       <Link to="/home" className="back-icon">
-          <FaArrowLeft size={64} />
+          <MdKeyboardBackspace size={64} />
       </Link>
     </Container>
   );

@@ -1,4 +1,29 @@
-.link-style {
+.back-icon {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #1F64E7;
+    color: #fff;
+    border-radius: 50%;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    transition: background-color 0.3s ease;
+}
+
+.back-icon:hover {
+    background-color: #0056b3;
+}
+
+.larger-image {
+    width: 40vw; /* Adjust the width to your desired size */
+    height: 40vw; /* Adjust the height to your desired size */
+  }
+  
+  .link-style {
     text-decoration: none;
   }
 
@@ -13,7 +38,7 @@
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background-color: #007bff;
+    background-color: #1F64E7;
     color: #fff;
     border-radius: 50%;
     padding: 12px;

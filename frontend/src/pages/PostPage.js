@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Card, Container, Row, Col, Button } from 'react-bootstrap';
-import { FaArrowLeft } from 'react-icons/fa';
-import './PostPage.css';
+import { MdKeyboardBackspace } from 'react-icons/md';
+import './style.css';
 
 const copyToClipboard = async (text) => {
   try {
@@ -29,6 +29,7 @@ function PostPage() {
   
         if (postResponse.ok && conversationsResponse.ok) {
           const postData = await postResponse.json();
+          console.log(postData)
           const conversationsData = await conversationsResponse.json();
           setPost(postData);
           setConversations(conversationsData || []);
@@ -61,28 +62,27 @@ function PostPage() {
     <Container className="text-center">
       {post && (
         <div>
-
           <Container className="mt-5">
             {conversations.length > 0 ? (
               conversations.map((conversation) => (
                 <Row key={conversation._id} className="mb-3">
                   <Col>
-                    <Card className="py-4 d-flex flex-column">
-                      <Card.Body className="d-flex flex-column">
-                        <Card.Text>{conversation.question.content}</Card.Text>
-                        {conversation.answer && (
-                          <Card.Text>{conversation.answer.content}</Card.Text>
-                        )}
-                        <div className="mt-auto text-muted">
-                          <small>{formatDateTime(conversation.question.time)}</small>
+                    <Card className="py-4 d-flex flex-column" style={{ minHeight: '7vw' }}>
+                      <Card.Body className="d-flex flex-column px-4">
+                        <div className='mb-4'>
+                          <Card.Text>{conversation.question.content}</Card.Text>
+                          <small className="response-time text-muted">{formatDateTime(conversation.question.time)}</small>
                         </div>
+                        {conversation.answer && (
+                          <div className='mt-4'>
+                            <Card.Text>{conversation.answer.content}</Card.Text>
+                            <small className="response-time text-muted">{formatDateTime(conversation.answer.time)}</small>
+                          </div>
+                        )}
                         {!conversation.answer && localStorage.getItem('token') && (
-                          <Link
-                            to={`/createAnswer/${conversation._id}/${postId}`}
-                            className="btn btn-primary"
-                          >
-                            Add Answer
-                          </Link>
+                          <Button href={`/createAnswer/${conversation._id}/${postId}`} variant="primary" className="mt-3">
+                            Write answer
+                          </Button>
                         )}
                       </Card.Body>
                     </Card>
@@ -105,7 +105,7 @@ function PostPage() {
 
       {localStorage.getItem('token') && (
         <Link to="/home" className="back-icon">
-            <FaArrowLeft size={64} />
+            <MdKeyboardBackspace size={64} />
         </Link>
       )}
     </Container>

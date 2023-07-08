@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 import { Container, Form, Button } from 'react-bootstrap';
-import { FaArrowLeft } from 'react-icons/fa';
+import { MdKeyboardBackspace } from 'react-icons/md';
+import './style.css';
 
 function CreatePostPage() {
   const [title, setTitle] = useState('');
@@ -66,7 +67,7 @@ function CreatePostPage() {
         </Form>
       </Container>
       <Link to="/home" className="back-icon">
-          <FaArrowLeft size={64} />
+          <MdKeyboardBackspace size={64} />
       </Link>
     </Container>
   );

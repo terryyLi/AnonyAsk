@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Button } from 'react-bootstrap';
+import './style.css';
 
 function LandingPage() {
   return (
