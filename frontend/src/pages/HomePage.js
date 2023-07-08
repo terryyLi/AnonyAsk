@@ -104,7 +104,7 @@ function HomePage() {
                         <OverlayTrigger
                           trigger={['hover', 'focus']}
                           placement="left"
-                          overlay={<Tooltip id="tooltip">{tooltipShown ? 'Copied!' : 'Copy to share!'}</Tooltip>}
+                          overlay={<Tooltip id="tooltip">{tooltipShown ? 'Copied to clipboard!' : 'Share with friends'}</Tooltip>}
                         >
                           <div
                             onClick={
