@@ -6,6 +6,27 @@ const url = 'https://language.googleapis.com/v1/documents:moderateText';
 const accessToken = process.env.ACCESS_TOKEN; // Replace with your actual access token
 const projectId = process.env.PROJECT_ID;
 
+function shouldBeModerated(input) {
+  const excludedCategories = [
+    'Health',
+    'Religion & Belief',
+    'Finance',
+    'Legal',
+    'Politics'
+  ];
+
+  const filteredInput = input.filter(item => !excludedCategories.includes(item.name));
+
+  for (let i = 0; i < filteredInput.length; i++) {
+    if (filteredInput[i].confidence > 0.5) {
+      return `Your message contains potential ${filteredInput[i].name} contents!`;
+    }
+  }
+
+  return 'Looks good!';
+}
+
+
 async function moderateContent(content) {
   const requestBody = {
     document: {
@@ -29,7 +50,7 @@ async function moderateContent(content) {
 
     if (response.ok) {
       const data = await response.json();
-      return data;
+      return shouldBeModerated(data.moderationCategories);
     } else {
       throw new Error('Request failed with status ' + response.status);
     }
@@ -39,7 +60,7 @@ async function moderateContent(content) {
   }
 }
 
-async function getSentimentScore(content) {
+async function isPositiveContent(content) {
     const document = {
         content: content,
         type: 'PLAIN_TEXT',
@@ -49,21 +70,11 @@ async function getSentimentScore(content) {
     const [result] = await client.analyzeSentiment({document});
 
     const sentiment = result.documentSentiment;
-    console.log('Document sentiment:');
-    console.log(`  Score: ${sentiment.score}`);
-    console.log(`  Magnitude: ${sentiment.magnitude}`);
 
-    const sentences = result.sentences;
-    sentences.forEach(sentence => {
-    console.log(`Sentence: ${sentence.text.content}`);
-    console.log(`  Score: ${sentence.sentiment.score}`);
-    console.log(`  Magnitude: ${sentence.sentiment.magnitude}`);
-    });
-
-    return sentiment.score;
+    return sentiment.score >= 0;
 }
 
 module.exports = {
   moderateContent,
-  getSentimentScore
+  isPositiveContent
 };
