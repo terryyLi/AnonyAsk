@@ -3,7 +3,7 @@ const router = express.Router();
 const PostModel = require('../models/PostModel');
 const ConversationModel = require('../models/ConversationModel');
 const ResponseModel = require('../models/ResponseModel');
-
+const { moderateContent, getSentimentScore } = require('../utils/nlp');
 
 // Route to get all conversations by post ID
 router.get('/:postId', async (req, res) => {
@@ -80,37 +80,24 @@ router.post('/:postId', async (req, res) => {
     }
 });
 
-// Imports the Google Cloud client library
-const language = require('@google-cloud/language');
-
-// Creates a client
-const client = new language.LanguageServiceClient();
-
 
 // Route to add an answer to a conversation
 router.post('/:conversationId/answer', async (req, res) => {
     const { conversationId } = req.params;
     const { content } = req.body;
 
-    const document = {
-        content: content,
-        type: 'PLAIN_TEXT',
-    };
+    const sentimenScore = await getSentimentScore(content);
+    console.log(sentimenScore);
 
-    // Detects the sentiment of the document
-    const [result] = await client.analyzeSentiment({document});
-
-    const sentiment = result.documentSentiment;
-    console.log('Document sentiment:');
-    console.log(`  Score: ${sentiment.score}`);
-    console.log(`  Magnitude: ${sentiment.magnitude}`);
-
-    const sentences = result.sentences;
-    sentences.forEach(sentence => {
-    console.log(`Sentence: ${sentence.text.content}`);
-    console.log(`  Score: ${sentence.sentiment.score}`);
-    console.log(`  Magnitude: ${sentence.sentiment.magnitude}`);
-    });
+    try {
+        const moderationResponse = await moderateContent(content);
+        console.log(moderationResponse);
+        // Continue with the rest of the code and handle moderation response as needed
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Failed to moderate content' });
+        return;
+    }
 
     try {
     // Find the conversation by ID
