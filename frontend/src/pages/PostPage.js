@@ -91,7 +91,7 @@ function PostPage() {
               ))
             ) : (
               <div className="no-questions">
-                <h1>You have no questions yet.</h1>
+                <h1>You have no questions yet</h1>
                 <img
                   className="img-fluid larger-image"
                   src={require('../assets/empty.svg').default}
