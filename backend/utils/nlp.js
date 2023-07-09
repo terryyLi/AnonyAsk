@@ -7,6 +7,7 @@ const accessToken = process.env.ACCESS_TOKEN; // Replace with your actual access
 const projectId = process.env.PROJECT_ID;
 
 function shouldBeModerated(input) {
+  console.log(input);
   const excludedCategories = [
     'Health',
     'Religion & Belief',
@@ -17,14 +18,24 @@ function shouldBeModerated(input) {
 
   const filteredInput = input.filter(item => !excludedCategories.includes(item.name));
 
+  let highestConfidenceCategory = null;
+  let highestConfidence = 0;
+
   for (let i = 0; i < filteredInput.length; i++) {
-    if (filteredInput[i].confidence > 0.7) {
-      return `Your message contains potential ${filteredInput[i].name} contents!`;
+    const currentItem = filteredInput[i];
+    if (currentItem.confidence > highestConfidence) {
+      highestConfidence = currentItem.confidence;
+      highestConfidenceCategory = currentItem.name;
     }
+  }
+
+  if (highestConfidenceCategory && highestConfidence > 0.6) {
+    return `Your message contains potential ${highestConfidenceCategory} contents!`;
   }
 
   return 'Looks good!';
 }
+
 
 
 async function moderateContent(content) {
@@ -70,7 +81,7 @@ async function isPositiveContent(content) {
     const [result] = await client.analyzeSentiment({document});
 
     const sentiment = result.documentSentiment;
-
+    console.log("sentiment score is: ", sentiment.score)
     return sentiment.score >= 0;
 }
 
