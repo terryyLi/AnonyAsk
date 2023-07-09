@@ -18,7 +18,7 @@ function shouldBeModerated(input) {
   const filteredInput = input.filter(item => !excludedCategories.includes(item.name));
 
   for (let i = 0; i < filteredInput.length; i++) {
-    if (filteredInput[i].confidence > 0.5) {
+    if (filteredInput[i].confidence > 0.7) {
       return `Your message contains potential ${filteredInput[i].name} contents!`;
     }
   }

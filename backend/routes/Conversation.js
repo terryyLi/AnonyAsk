@@ -36,6 +36,20 @@ router.post('/:postId', async (req, res) => {
     const { postId } = req.params;
     const { content } = req.body;
 
+    const isPositive = await isPositiveContent(content);
+    alert("isPositive is: ", isPositive);
+
+    try {
+        const moderationResponse = await moderateContent(content);
+        alert("moderationResponse is: ", moderationResponse);
+        // Continue with the rest of the code and handle moderation response as needed
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Failed to moderate content' });
+        alert(error);
+        return;
+    }
+
     try {
         // Find the post by ID
         const post = await PostModel.findById(postId);
@@ -87,15 +101,16 @@ router.post('/:conversationId/answer', async (req, res) => {
     const { content } = req.body;
 
     const isPositive = await isPositiveContent(content);
-    console.log(isPositive);
+    alert("isPositive is: ", isPositive);
 
     try {
         const moderationResponse = await moderateContent(content);
-        console.log(moderationResponse);
+        alert("moderationResponse is: ", moderationResponse);
         // Continue with the rest of the code and handle moderation response as needed
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Failed to moderate content' });
+        alert(error);
         return;
     }
 
