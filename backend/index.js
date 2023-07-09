@@ -18,6 +18,14 @@ app.use((req, res, next) => {
 });
 app.use(express.json());
 
+const allowedOrigins = ['http://localhost:3000', 'https://anonyask-frontend-odnuj43iea-uc.a.run.app'];
+
+app.use(cors({
+  origin: allowedOrigins,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 
 app.use('/api', routes);
 
