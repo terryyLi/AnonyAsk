@@ -42,6 +42,10 @@ router.post('/:postId', async (req, res) => {
     try {
         const moderationResponse = await moderateContent(content);
         console.log("moderationResponse is: ", moderationResponse);
+        if (moderationResponse !== "Looks good!") {
+            // Send a custom message when moderation response is not "Looks good!"
+            return res.status(400).json({ error: moderationResponse });
+        }
         // Continue with the rest of the code and handle moderation response as needed
     } catch (error) {
         console.error(error);
@@ -107,6 +111,10 @@ router.post('/:conversationId/answer', async (req, res) => {
         const moderationResponse = await moderateContent(content);
         console.log("moderationResponse is: ", moderationResponse);
         // Continue with the rest of the code and handle moderation response as needed
+        if (moderationResponse !== "Looks good!") {
+            // Send a custom message when moderation response is not "Looks good!"
+            return res.status(400).json({ error: moderationResponse });
+        }
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Failed to moderate content' });

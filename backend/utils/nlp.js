@@ -30,7 +30,7 @@ function shouldBeModerated(input) {
   }
 
   if (highestConfidenceCategory && highestConfidence > 0.6) {
-    return `Your message contains potential ${highestConfidenceCategory} contents!`;
+    return `Your message contains potential ${highestConfidenceCategory.toLowerCase()} content!`;
   }
 
   return 'Looks good!';

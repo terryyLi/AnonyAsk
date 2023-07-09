@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
-import { Container, Form, Button } from 'react-bootstrap';
+import { Container, Form, Button, Alert } from 'react-bootstrap';
 import { MdKeyboardBackspace } from 'react-icons/md';
 import './style.css';
 
@@ -8,6 +8,7 @@ function CreateAnswerPage() {
   const [content, setContent] = useState('');
   const navigate = useNavigate();
   const { conversationId, postId } = useParams(); // Retrieve the conversationId and postId from the URL parameters
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,6 +27,9 @@ function CreateAnswerPage() {
         navigate(`/post/${postId}`); // Redirect to the previous post page
       } else {
         // Handle error response
+        const data = await response.json();
+        const { error } = data;
+        setError(error);
       }
     } catch (error) {
       console.error(error);
@@ -36,6 +40,7 @@ function CreateAnswerPage() {
   return (
     <Container className="text-center">
       <h1 className="mt-5">Add Answer</h1>
+      {error && <Alert variant="danger">{error}</Alert>}
       <Container className="mt-5">
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="content">

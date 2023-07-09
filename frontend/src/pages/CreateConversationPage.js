@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Container, Form, Button } from 'react-bootstrap';
+import { Container, Form, Button, Alert } from 'react-bootstrap';
 import './style.css';
 
 function CreateConversationPage() {
   const [title, setTitle] = useState('');
   const navigate = useNavigate();
   const { postId } = useParams(); // Retrieve the postId from the URL parameter
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,6 +26,9 @@ function CreateConversationPage() {
         navigate(`/post/${postId}`); // Redirect to homepage
       } else {
         // Handle error response
+        const data = await response.json();
+        const { error } = data;
+        setError(error);
       }
     } catch (error) {
       console.error(error);
@@ -35,6 +39,7 @@ function CreateConversationPage() {
   return (
     <Container className="text-center">
       <h1 className="mt-5">Ask me any thing!</h1>
+      {error && <Alert variant="danger">{error}</Alert>}
       <Container className="mt-5">
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="title">

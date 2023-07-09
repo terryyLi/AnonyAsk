@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const UserModel = require('../models/UserModel');
 const PostModel = require('../models/PostModel');
+const { moderateContent } = require('../utils/nlp');
 
 // Route to get posts by user name
 router.get('/user/:username', async (req, res) => {
@@ -48,6 +49,21 @@ router.get('/:postId', async (req, res) => {
 router.post('/user/:username', async (req, res) => {
     const { username } = req.params;
     const { title } = req.body;
+
+    try {
+        const moderationResponse = await moderateContent(title);
+        console.log("moderationResponse is: ", moderationResponse);
+        if (moderationResponse !== "Looks good!") {
+            // Send a custom message when moderation response is not "Looks good!"
+            return res.status(400).json({ error: moderationResponse });
+        }
+        // Continue with the rest of the code and handle moderation response as needed
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Failed to moderate content' });
+        console.log(error);
+        return;
+    }
 
     try {
         // Find the user by username

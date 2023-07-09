@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
-import { Container, Form, Button } from 'react-bootstrap';
+import { Container, Form, Button, Alert } from 'react-bootstrap';
 import { MdKeyboardBackspace } from 'react-icons/md';
 import './style.css';
 
@@ -9,6 +9,7 @@ function CreatePostPage() {
   const [title, setTitle] = useState('');
   const [username, setUsername] = useState('');
   const navigate = useNavigate();
+  const [error, setError] = useState('');
 
   useEffect(() => {
     // Retrieve token from localStorage
@@ -38,6 +39,9 @@ function CreatePostPage() {
         navigate('/home'); // Redirect to homepage
       } else {
         // Handle error response
+        const data = await response.json();
+        const { error } = data;
+        setError(error);
       }
     } catch (error) {
       console.error(error);
@@ -48,6 +52,7 @@ function CreatePostPage() {
   return (
     <Container className="text-center">
       <h1 className="mt-5"> Create post </h1>
+      {error && <Alert variant="danger">{error}</Alert>}
       <Container className="mt-5">
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="title">
