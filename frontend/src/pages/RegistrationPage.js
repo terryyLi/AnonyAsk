@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Form, Button, Alert } from 'react-bootstrap';
 import { useNavigate, Link } from 'react-router-dom';
 import AnonyaskImage from "../assets/anonyask.svg";
@@ -10,6 +10,16 @@ const RegistrationPage = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Retrieve token from localStorage
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      // Decode the token to retrieve the username
+      navigate(`/home`); 
+    }
+  }, []);
 
   const handleRegister = async () => {
     try {

@@ -19,6 +19,8 @@ function CreatePostPage() {
       // Decode the token to retrieve the username
       const decodedToken = jwt_decode(token);
       setUsername(decodedToken.username);
+    } else {
+      navigate(`/`)
     }
   }, []);
 

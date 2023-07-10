@@ -4,15 +4,6 @@ import { Card, Container, Row, Col, Button } from 'react-bootstrap';
 import { MdKeyboardBackspace } from 'react-icons/md';
 import './style.css';
 
-const copyToClipboard = async (text) => {
-  try {
-    await navigator.clipboard.writeText(text);
-    alert('Link copied to clipboard!');
-  } catch (error) {
-    console.error('Failed to copy text: ', error);
-    // Handle error
-  }
-};
 
 function PostPage() {
   const [post, setPost] = useState(null);

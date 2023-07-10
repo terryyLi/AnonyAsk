@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { Container, Form, Button, Alert } from 'react-bootstrap';
 import { MdKeyboardBackspace } from 'react-icons/md';
@@ -9,6 +9,16 @@ function CreateAnswerPage() {
   const navigate = useNavigate();
   const { conversationId, postId } = useParams(); // Retrieve the conversationId and postId from the URL parameters
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    // Retrieve token from localStorage
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      // Decode the token to retrieve the username
+      navigate(`/`); 
+    }
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

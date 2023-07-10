@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Card, Container, Row, Col, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { MdAdd } from 'react-icons/md';
 import { RiShareForwardLine } from 'react-icons/ri';
@@ -43,6 +43,7 @@ function HomePage() {
   const [posts, setPosts] = useState(null);
   const [username, setUsername] = useState('');
   const [tooltipShown, setTooltipShown] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Retrieve token from localStorage
@@ -52,6 +53,8 @@ function HomePage() {
       // Decode the token to retrieve the username
       const decodedToken = jwt_decode(token);
       setUsername(decodedToken.username);
+    } else {
+      navigate('/')
     }
   }, []);
 
