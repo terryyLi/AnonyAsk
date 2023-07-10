@@ -1,9 +1,9 @@
 const fetch = require('node-fetch');
 const language = require('@google-cloud/language');
 const client = new language.LanguageServiceClient();
+const { exec } = require('child_process');
 
 const url = 'https://language.googleapis.com/v1/documents:moderateText';
-const accessToken = process.env.ACCESS_TOKEN; // Replace with your actual access token
 const projectId = process.env.PROJECT_ID;
 
 function shouldBeModerated(input) {
@@ -36,7 +36,19 @@ function shouldBeModerated(input) {
   return 'Looks good!';
 }
 
-
+async function getAccessToken() {
+  return new Promise((resolve, reject) => {
+    exec('gcloud auth application-default print-access-token', (error, stdout, stderr) => {
+      if (error) {
+        console.error('Error getting access token:', error.message);
+        reject(error);
+      } else {
+        const accessToken = stdout.trim();
+        resolve(accessToken);
+      }
+    });
+  });
+}
 
 async function moderateContent(content) {
   const requestBody = {
@@ -47,7 +59,7 @@ async function moderateContent(content) {
   };
 
   const headers = {
-    Authorization: `Bearer ${accessToken}`,
+    Authorization: `Bearer ${await getAccessToken()}`,
     'x-goog-user-project': projectId,
     'Content-Type': 'application/json; charset=utf-8'
   };
@@ -72,17 +84,17 @@ async function moderateContent(content) {
 }
 
 async function isPositiveContent(content) {
-    const document = {
-        content: content,
-        type: 'PLAIN_TEXT',
-    };
+  const document = {
+    content: content,
+    type: 'PLAIN_TEXT',
+  };
 
-    // Detects the sentiment of the document
-    const [result] = await client.analyzeSentiment({document});
+  // Detects the sentiment of the document
+  const [result] = await client.analyzeSentiment({ document });
 
-    const sentiment = result.documentSentiment;
-    console.log("sentiment score is: ", sentiment.score)
-    return sentiment.score >= 0;
+  const sentiment = result.documentSentiment;
+  console.log("sentiment score is: ", sentiment.score);
+  return sentiment.score >= 0;
 }
 
 module.exports = {
