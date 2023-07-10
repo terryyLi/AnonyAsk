@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { Container, Form, Button, Alert } from 'react-bootstrap';
+import AnonyaskImage from "../assets/anonyask.png";
 import './style.css';
 
 const LoginPage = () => {
@@ -8,6 +9,16 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Retrieve token from localStorage
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      // Decode the token to retrieve the username
+      navigate(`/home`); 
+    }
+  }, []);
 
   const handleLogin = async () => {
     try {
@@ -51,35 +62,78 @@ const LoginPage = () => {
     }
   };
   
-
   return (
-    <Container className="text-center mt-5">
-      <h2>Login Page</h2>
-      {error && <Alert variant="danger">{error}</Alert>}
-      <Form>
-        <Form.Group controlId="email">
-          <Form.Label>Email:</Form.Label>
-          <Form.Control
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            isInvalid={!!error} // Add isInvalid prop when error exists
-          />
-        </Form.Group>
-        <Form.Group controlId="password">
-          <Form.Label>Password:</Form.Label>
-          <Form.Control
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            isInvalid={!!error} // Add isInvalid prop when error exists
-          />
-        </Form.Group>
-        <Button variant="primary" type="button" onClick={handleLogin}>
-          Login
-        </Button>
-      </Form>
-    </Container>
+    <section className="h-100vh gradient-form" style={{ backgroundColor: '#eee' }}>
+      <Container className="py-5 h-100">
+        <div className="row d-flex justify-content-center align-items-center h-100">
+          <div className="col-xl-10">
+            <div className="card rounded-3 text-black">
+              <div className="row g-0">
+                <div className="col-lg-6">
+                  <div className="card-body p-md-5 mx-md-4">
+                    <div className="text-center">
+                      <img
+                        className="img-fluid larger-image"
+                        src={AnonyaskImage}
+                        alt="empty"
+                        style={{ width: '185px' }} 
+                      />
+                    </div>
+                    <Form>
+                      <p>Please login to your account</p>
+                      {error && <Alert variant="danger">{error}</Alert>}
+  
+                      <div className="form-outline mb-4">
+                        <input
+                          type="email"
+                          id="form2Example11"
+                          className="form-control"
+                          placeholder="Email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          isInvalid={!!error} // Add isInvalid prop when error exists
+                        />
+                      </div>
+  
+                      <div className="form-outline mb-4">
+                        <input
+                          type="password"
+                          id="form2Example22"
+                          className="form-control"
+                          placeholder="Password"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                          isInvalid={!!error} // Add isInvalid prop when error exists
+                        />
+                      </div>
+  
+                      <div className="text-center pt-1 mb-5 pb-1">
+                        <Button
+                          className="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3"
+                          type="button"
+                          onClick={handleLogin}
+                        >
+                          Log in
+                        </Button>
+                      </div>
+  
+                      <div className="d-flex align-items-center justify-content-center pb-4">
+                        <p className="mb-0 me-2">Don't have an account?</p>
+                        <Link to="/registration" type="button" className="btn btn-outline-danger">Create new</Link>
+                      </div>
+                    </Form>
+  
+                  </div>
+                </div>
+                <div className="col-lg-6 d-flex align-items-center gradient-custom-2">
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Container>
+    </section>
   );
 };
 
