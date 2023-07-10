@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Container, Form, Button, Alert } from 'react-bootstrap';
-import AnonyaskImage from "../assets/anonyask.png";
+import AnonyaskImage from "../assets/anonyask.svg";
 import './style.css';
 
 const LoginPage = () => {
