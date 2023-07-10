@@ -3,7 +3,7 @@ const router = express.Router();
 const PostModel = require('../models/PostModel');
 const ConversationModel = require('../models/ConversationModel');
 const ResponseModel = require('../models/ResponseModel');
-const { moderateContent, isPositiveContent } = require('../utils/nlp');
+const { moderateContent } = require('../utils/nlp');
 
 // Route to get all conversations by post ID
 router.get('/:postId', async (req, res) => {
@@ -35,9 +35,6 @@ router.get('/:postId', async (req, res) => {
 router.post('/:postId', async (req, res) => {
     const { postId } = req.params;
     const { content } = req.body;
-
-    const isPositive = await isPositiveContent(content);
-    console.log("isPositive is: ", isPositive);
 
     try {
         const moderationResponse = await moderateContent(content);
@@ -103,9 +100,6 @@ router.post('/:postId', async (req, res) => {
 router.post('/:conversationId/answer', async (req, res) => {
     const { conversationId } = req.params;
     const { content } = req.body;
-
-    const isPositive = await isPositiveContent(content);
-    console.log("isPositive is: ", isPositive);
 
     try {
         const moderationResponse = await moderateContent(content);
